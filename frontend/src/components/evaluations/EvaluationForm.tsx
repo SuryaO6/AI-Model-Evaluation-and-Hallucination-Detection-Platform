@@ -34,7 +34,7 @@ const criteriaOptions: { key: keyof EvaluationCriteria; label: string }[] = [
 export function EvaluationForm({ onSubmit, loading }: Props) {
   const [prompt, setPrompt] = useState("");
   const [context, setContext] = useState("");
-  const [models, setModels] = useState<ModelId[]>(["gemini", "grok"]);
+  const [models, setModels] = useState<ModelId[]>(["gemini"]);
   const [criteria, setCriteria] = useState<EvaluationCriteria>({
     relevance: true,
     factuality: true,

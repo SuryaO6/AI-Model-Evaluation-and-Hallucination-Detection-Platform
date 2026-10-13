@@ -16,6 +16,7 @@ export default function EvaluationsPage() {
   );
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [localEvals, setLocalEvals] = useState<Evaluation[]>([]);
 
   const allEvals = [...(localEvals ?? []), ...(evaluations ?? [])];
@@ -29,13 +30,18 @@ export default function EvaluationsPage() {
     criteria: EvaluationCriteria;
   }) {
     setSubmitting(true);
+    setSubmitError(null);
     try {
       const result = await api.createEvaluation(data);
       setLocalEvals((prev) => [result, ...prev]);
       setSelectedId(result.id);
       await refetch();
-    } catch {
-      // Error is handled silently in demo mode
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "The evaluation could not be started."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -52,6 +58,14 @@ export default function EvaluationsPage() {
         {/* Left: Form + Detail */}
         <div className="xl:col-span-2 space-y-6">
           <EvaluationForm onSubmit={handleSubmit} loading={submitting} />
+          {submitError && (
+            <div
+              role="alert"
+              className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+            >
+              {submitError}
+            </div>
+          )}
 
           {selected ? (
             <div className="space-y-3">

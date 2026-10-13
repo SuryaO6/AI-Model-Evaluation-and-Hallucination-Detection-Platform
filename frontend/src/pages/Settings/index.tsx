@@ -48,7 +48,7 @@ export default function SettingsPage() {
   const [showGrokKey, setShowGrokKey] = useState(false);
   const [sensitivity, setSensitivity] = useState("0.75");
   const [apiUrl, setApiUrl] = useState(
-    import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api/v1"
+    import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8001/api/v1"
   );
 
   const [checkingConnection, setCheckingConnection] = useState(false);
@@ -223,7 +223,7 @@ export default function SettingsPage() {
               label="API Base URL"
               value={apiUrl}
               onChange={(e) => setApiUrl(e.target.value)}
-              placeholder="http://localhost:8000/api/v1"
+              placeholder="http://localhost:8001/api/v1"
             />
 
             <div className="text-xs text-gray-400 dark:text-gray-500">

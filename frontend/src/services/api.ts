@@ -34,7 +34,7 @@ import {
 // ── Base client ──────────────────────────────────────────────────────
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api/v1";
+  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8001/api/v1";
 
 let _isBackendAvailable: boolean | null = null;
 
@@ -47,7 +47,19 @@ async function apiFetch<T>(
     ...init,
   });
   if (!res.ok) {
-    throw new Error(`API ${res.status}: ${res.statusText}`);
+    let detail = "";
+    try {
+      const body = (await res.json()) as { detail?: unknown };
+      if (body.detail) {
+        detail =
+          typeof body.detail === "string"
+            ? `: ${body.detail}`
+            : `: ${JSON.stringify(body.detail)}`;
+      }
+    } catch {
+      // Keep the status error when the server does not return JSON.
+    }
+    throw new Error(`API ${res.status}: ${res.statusText}${detail}`);
   }
   return (await res.json()) as T;
 }
@@ -157,7 +169,7 @@ export const api = {
     criteria: EvaluationCriteria;
   }): Promise<Evaluation> {
     if (_isBackendAvailable) {
-      return apiFetch<Evaluation>("/evaluations", {
+      return apiFetch<Evaluation>("/evaluations/run", {
         method: "POST",
         body: JSON.stringify(payload),
       });
