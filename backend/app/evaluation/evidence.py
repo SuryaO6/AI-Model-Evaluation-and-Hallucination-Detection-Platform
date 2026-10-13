@@ -24,7 +24,7 @@ def find_evidence(
             best_sentence = sentence
             best_overlap = overlap
 
-    if best_overlap < 0.5 or best_sentence is None:
+    if best_overlap <= 0.5 or best_sentence is None:
         return None, best_overlap, False
 
     claim_is_negated = bool(_NEGATION_WORDS & content_tokens(claim))
