@@ -1,0 +1,1 @@
+"""Common model provider interface."""

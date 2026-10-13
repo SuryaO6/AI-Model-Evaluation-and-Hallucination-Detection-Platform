@@ -1,0 +1,25 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+
+# Local data and databases
+data/*
+!data/.gitkeep
+*.db
+
+# Editor and OS files
+.DS_Store
+.vscode/
